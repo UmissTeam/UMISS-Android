@@ -4,6 +4,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.support.v4.app.NotificationCompat;
@@ -21,7 +22,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
 
-        if ( remoteMessage.getNotification() != null ){
+        if ( remoteMessage.getNotification() != null && isLogged() ){
 
             sendNotification(remoteMessage.getNotification());
         }
@@ -44,5 +45,10 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.notify(0, notifiBuilder.build());
+    }
+
+    private boolean isLogged(){
+
+        return getSharedPreferences("data",MODE_PRIVATE).getBoolean(LoginActivity.isLogged, false);
     }
 }
