@@ -1,5 +1,7 @@
 package com.umiss;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -15,18 +17,18 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        isLogged();
+    }
 
-        Button b = (Button) findViewById(R.id.button);
+    private void isLogged(){
 
-        b.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String token = FirebaseInstanceId.getInstance().getToken();
+        SharedPreferences sharedPreferences = getSharedPreferences("data",MODE_PRIVATE);
 
-                Toast.makeText(MainActivity.this, token, Toast.LENGTH_SHORT).show();
+        if ( !sharedPreferences.getBoolean("isLogged", false) ){
 
-                Log.d("MainActivity", token);
-            }
-        });
+            Intent intent = new Intent(this, LoginActivity.class);
+            startActivity(intent);
+            finish();
+        }
     }
 }
