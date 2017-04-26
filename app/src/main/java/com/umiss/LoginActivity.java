@@ -17,7 +17,7 @@ import org.json.JSONObject;
 
 public class LoginActivity extends AppCompatActivity {
 
-    public static final String isLogged = "isLogged";
+    public static final String IS_LOGGED = "isLogged";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,7 +61,7 @@ public class LoginActivity extends AppCompatActivity {
     private void pushLoginCredentials(SharedPreferences sharedPreferences, JSONObject jsonObject) throws JSONException {
 
         SharedPreferences.Editor prefEditor = sharedPreferences.edit();
-        prefEditor.putBoolean(isLogged, true);
+        prefEditor.putBoolean(IS_LOGGED, true);
         //TODO: in case this token is necessary
         prefEditor.putString("authenticationToken", jsonObject.getString("authenticationToken"));
         prefEditor.commit();

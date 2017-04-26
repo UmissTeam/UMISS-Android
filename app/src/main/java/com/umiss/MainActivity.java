@@ -18,13 +18,23 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         isLogged();
+
+        Button button = (Button) findViewById(R.id.button);
+
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                System.out.println(FirebaseInstanceId.getInstance().getToken().toString());
+                Log.d("token", FirebaseInstanceId.getInstance().getToken().toString());
+            }
+        });
     }
 
     private void isLogged(){
 
         SharedPreferences sharedPreferences = getSharedPreferences("data",MODE_PRIVATE);
 
-        if ( !sharedPreferences.getBoolean(LoginActivity.isLogged, false) ){
+        if ( !sharedPreferences.getBoolean(LoginActivity.IS_LOGGED, false) ){
 
             Intent intent = new Intent(this, LoginActivity.class);
             startActivity(intent);

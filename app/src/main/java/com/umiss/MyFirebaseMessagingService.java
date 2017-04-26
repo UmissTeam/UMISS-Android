@@ -1,17 +1,23 @@
 package com.umiss;
 
+import android.app.ActivityManager;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.media.RingtoneManager;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by gustavo on 4/13/17.
@@ -19,16 +25,28 @@ import com.google.firebase.messaging.RemoteMessage;
 
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
+    private static final String LOGOUT = "LOGOUT";
+
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
 
-        if ( remoteMessage.getNotification() != null && isLogged() ){
+        Map<String, String> message = remoteMessage.getData();
 
-            sendNotification(remoteMessage.getNotification());
+        if ( message != null && isLogged() ){
+
+            String notificationType = message.get("Type");
+
+            if ( notificationType.equals(LOGOUT) ){
+
+                logOut();
+            }else {
+
+                sendNotification(message.get("Title"), message.get("Body"));
+            }
         }
     }
 
-    private void sendNotification(RemoteMessage.Notification notification) {
+    private void sendNotification(String title, String body) {
 
         Intent intent = new Intent(this, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -37,8 +55,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         Uri notificationSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
 
         NotificationCompat.Builder notifiBuilder = new NotificationCompat.Builder(this)
-                .setSmallIcon(R.mipmap.ic_launcher).setContentTitle(notification.getTitle())
-                .setContentText(notification.getBody())
+                .setSmallIcon(R.mipmap.ic_launcher).setContentTitle(title)
+                .setContentText(body)
                 .setAutoCancel(true)
                 .setSound(notificationSound)
                 .setContentIntent(pendingIntent);
@@ -49,6 +67,15 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     private boolean isLogged(){
 
-        return getSharedPreferences("data",MODE_PRIVATE).getBoolean(LoginActivity.isLogged, false);
+        return getSharedPreferences("data",MODE_PRIVATE).getBoolean(LoginActivity.IS_LOGGED, false);
+    }
+
+    private void logOut(){
+
+        SharedPreferences sharedPreferences = getSharedPreferences("data",MODE_PRIVATE);
+        SharedPreferences.Editor prefEditor = sharedPreferences.edit();
+        prefEditor.putBoolean(LoginActivity.IS_LOGGED, false);
+        prefEditor.putString("authenticationToken", null);
+        prefEditor.commit();
     }
 }
