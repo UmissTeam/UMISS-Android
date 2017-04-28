@@ -77,5 +77,15 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         prefEditor.putBoolean(LoginActivity.IS_LOGGED, false);
         prefEditor.putString("authenticationToken", null);
         prefEditor.commit();
+
+        if ( MyApplication.isActivityVisible() )
+            startLoginActivity();
+    }
+
+    private void startLoginActivity(){
+
+        Intent intent = new Intent(this, LoginActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
     }
 }
