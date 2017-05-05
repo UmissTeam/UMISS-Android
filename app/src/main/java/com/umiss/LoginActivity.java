@@ -20,6 +20,7 @@ public class LoginActivity extends AppCompatActivity {
 
     public static final String IS_LOGGED = "isLogged";
     private String LOGIN_REQUEST = "users/";
+    private String CONNECTION_ERROR = "Server is offline!";
 
     private EditText userEditText;
     private EditText passwordEditText;
@@ -59,13 +60,18 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onCompleted(Exception e, JsonObject result) {
 
-                if ( result.has("url") ) {
-                    SharedPreferences sharedPreferences = getSharedPreferences("data", MODE_PRIVATE);
-                    pushLoginCredentials(sharedPreferences, jsonObject);
-                    startMainActivity();
-                }else{
+                try {
+                    if (result.has("url")) {
+                        SharedPreferences sharedPreferences = getSharedPreferences("data", MODE_PRIVATE);
+                        pushLoginCredentials(sharedPreferences, jsonObject);
+                        startMainActivity();
+                    } else {
 
-                    loginHasFailed(userEditText, passwordEditText);
+                        loginHasFailed(userEditText, passwordEditText);
+                    }
+                }catch(Exception NullPointerException){
+
+                    Toast.makeText(getApplicationContext(), CONNECTION_ERROR, Toast.LENGTH_LONG).show();
                 }
             }
         });
