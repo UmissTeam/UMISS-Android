@@ -1,6 +1,7 @@
 package network;
 
 import android.content.Context;
+import android.provider.Settings;
 
 import com.google.gson.JsonObject;
 import com.koushikdutta.async.future.FutureCallback;
@@ -15,7 +16,14 @@ public class UMISSRest {
         Ion.with(context).load(url).asJsonObject().setCallback(futureCallback);
     }
 
-    public static void post(String url,JsonObject json, Context context, FutureCallback<JsonObject> futureCallback) {
+    public static void post(String url,JsonObject json, Context context,String token, FutureCallback<JsonObject> futureCallback) {
+
+        Ion.with(context).load(url).setHeader("Authorization","Token "+token).setBodyParameter("beats", "123").asJsonObject().setCallback(futureCallback);
+                //setJsonObjectBody(json).asJsonObject().setCallback(futureCallback);
+        System.out.println("k->"+json.toString());
+    }
+
+    public static void login(String url,JsonObject json, Context context, FutureCallback<JsonObject> futureCallback){
 
         Ion.with(context).load(url).setJsonObjectBody(json).asJsonObject().setCallback(futureCallback);
     }

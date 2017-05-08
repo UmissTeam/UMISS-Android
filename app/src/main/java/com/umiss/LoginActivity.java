@@ -19,7 +19,8 @@ import network.UMISSRest;
 public class LoginActivity extends AppCompatActivity {
 
     public static final String IS_LOGGED = "isLogged";
-    private String LOGIN_REQUEST = "users/";
+    public static final String TOKEN = "token";
+    private String LOGIN_REQUEST = "api-auth-token/" ;
     private String CONNECTION_ERROR = "Server is offline!";
 
     private EditText userEditText;
@@ -56,14 +57,15 @@ public class LoginActivity extends AppCompatActivity {
 
         final JsonObject jsonObject = getJson(user, password, token);
 
-        UMISSRest.post(UMISSRest.getAbsoluteURL(LOGIN_REQUEST), jsonObject, getApplicationContext(), new FutureCallback<JsonObject> (){
+        UMISSRest.login(UMISSRest.getAbsoluteURL(LOGIN_REQUEST), jsonObject, getApplicationContext(), new FutureCallback<JsonObject> (){
             @Override
             public void onCompleted(Exception e, JsonObject result) {
 
                 try {
-                    if (result.has("url")) {
+                    if (result.has("token")) {
                         SharedPreferences sharedPreferences = getSharedPreferences("data", MODE_PRIVATE);
-                        pushLoginCredentials(sharedPreferences, jsonObject);
+                        pushLoginCredentials(sharedPreferences, result.get(TOKEN).toString().replace("\"", ""));
+                        System.out.println("token;:: " + result.get(TOKEN).toString());
                         startMainActivity();
                     } else {
 
@@ -86,12 +88,12 @@ public class LoginActivity extends AppCompatActivity {
         return jsonObject;
     }
 
-    private void pushLoginCredentials(SharedPreferences sharedPreferences, JsonObject jsonObject) {
+    private void pushLoginCredentials(SharedPreferences sharedPreferences, String token) {
 
         SharedPreferences.Editor prefEditor = sharedPreferences.edit();
         prefEditor.putBoolean(IS_LOGGED, true);
         //TODO: in case this token is necessary
-        prefEditor.putString("authenticationToken", "token");
+        prefEditor.putString(TOKEN, token);
         prefEditor.commit();
     }
 

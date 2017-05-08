@@ -10,6 +10,10 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.gson.JsonObject;
+import com.koushikdutta.async.future.FutureCallback;
+
+import network.UMISSRest;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -28,6 +32,22 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 System.out.println(FirebaseInstanceId.getInstance().getToken().toString());
                 Log.d("token", FirebaseInstanceId.getInstance().getToken().toString());
+
+                JsonObject jsonObject = new JsonObject();
+                jsonObject.addProperty("beats", 123);
+
+                SharedPreferences sharedPreferences = getSharedPreferences("data",MODE_PRIVATE);
+                String token = sharedPreferences.getString(LoginActivity.TOKEN, "");
+
+                System.out.println("token "+token);
+
+                UMISSRest.post(UMISSRest.getAbsoluteURL("api/heart_beats"), jsonObject, getApplicationContext(), token,
+                        new FutureCallback<JsonObject>() {
+                    @Override
+                    public void onCompleted(Exception e, JsonObject result) {
+                        System.out.println(result.toString());
+                    }
+                });
             }
         });
     }
