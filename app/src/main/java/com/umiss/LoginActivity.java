@@ -61,11 +61,14 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onCompleted(Exception e, JsonObject result) {
 
+                System.out.println(result.toString());
+
                 try {
                     if (result.has("token")) {
+
                         SharedPreferences sharedPreferences = getSharedPreferences("data", MODE_PRIVATE);
-                        pushLoginCredentials(sharedPreferences, result.get(TOKEN).toString().replace("\"", ""));
-                        System.out.println("token;:: " + result.get(TOKEN).toString());
+                        pushLoginCredentials(sharedPreferences, result.get(TOKEN).getAsString());
+                        System.out.println("token;:: " + result.get(TOKEN).getAsString());
                         startMainActivity();
                     } else {
 

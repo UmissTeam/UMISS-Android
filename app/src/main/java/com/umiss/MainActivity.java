@@ -41,11 +41,16 @@ public class MainActivity extends AppCompatActivity {
 
                 System.out.println("token "+token);
 
-                UMISSRest.post(UMISSRest.getAbsoluteURL("api/heart_beats"), jsonObject, getApplicationContext(), token,
-                        new FutureCallback<JsonObject>() {
+                UMISSRest.sendAndroidToken("http://10.0.2.2:8000/api/monitors/17",
+                        getApplicationContext(),
+                        token, FirebaseInstanceId.getInstance().getToken().toString(),
+                        "cadeiratoken",new FutureCallback<JsonObject>() {
                     @Override
                     public void onCompleted(Exception e, JsonObject result) {
-                        System.out.println(result.toString());
+                        if ( result != null )
+                            System.out.println("result = "+result.toString());
+                        else
+                            System.out.println("e = " + e.toString());
                     }
                 });
             }
