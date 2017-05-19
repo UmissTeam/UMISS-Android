@@ -84,23 +84,6 @@ public class LoginActivity extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(), CONNECTION_ERROR, Toast.LENGTH_LONG).show();
                     }
                 }
-
-//                if ( result != null ) {
-//
-//                    try {
-//
-//                        if (result.has("token")) {
-//
-//
-//                        }
-//                    } catch (Exception exception) {
-//
-//
-//                    }
-//                }else{
-//
-//
-//                }
             }
         });
     }

@@ -2,6 +2,12 @@ package com.umiss;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -17,13 +23,16 @@ import network.UMISSRest;
 
 public class MainActivity extends AppCompatActivity {
 
-    public static boolean isOnBackground = false;
+    private TabLayout tabLayout;
+    private ViewPager viewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         isLogged();
+
+        findViewItems();
 
         Button button = (Button) findViewById(R.id.button);
 
@@ -70,6 +79,14 @@ public class MainActivity extends AppCompatActivity {
         MyApplication.activityPaused();
     }
 
+    private void findViewItems(){
+        tabLayout = (TabLayout) findViewById(R.id.main_tab);
+        viewPager = (ViewPager) findViewById(R.id.main_viewpager);
+
+        viewPager.setAdapter(new CustomAdapter(getSupportFragmentManager()));
+        tabLayout.setupWithViewPager(viewPager);
+    }
+
     private void isLogged(){
 
         SharedPreferences sharedPreferences = getSharedPreferences("data",MODE_PRIVATE);
@@ -79,6 +96,42 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(this, LoginActivity.class);
             startActivity(intent);
             finish();
+        }
+    }
+
+    private class CustomAdapter extends FragmentPagerAdapter {
+
+        private String[] fragments = {"Batimentos", "Galvanica", "Temperatura"};
+
+        public CustomAdapter(FragmentManager supportFragmentManager) {
+            super(supportFragmentManager);
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            switch (position){
+
+                case 0:
+                    return new F1();
+                case 1:
+                    return new F1();
+                case 2:
+                    return new F1();
+                case 3:
+                    return new F1();
+                default:
+                    return null;
+            }
+        }
+
+        @Override
+        public int getCount() {
+            return fragments.length;
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position){
+            return fragments[position];
         }
     }
 }
