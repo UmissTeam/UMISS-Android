@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -64,24 +65,42 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onCompleted(Exception e, JsonObject result) {
 
-                try {
+                if ( e instanceof ClassCastException ){
 
-                    System.out.println("Result " + result.toString());
+                    loginHasFailed(userEditText, passwordEditText);
+                }else {
 
-                    if (result.has("token")) {
+                    try {
 
-                        SharedPreferences sharedPreferences = getSharedPreferences("data", MODE_PRIVATE);
-                        pushLoginCredentials(sharedPreferences, result.get(TOKEN).getAsString());
-                        System.out.println("token;:: " + result.get(TOKEN).getAsString());
-                        startMainActivity();
-                    } else {
+                        if (result.has("token")) {
 
-                        loginHasFailed(userEditText, passwordEditText);
+                            SharedPreferences sharedPreferences = getSharedPreferences("data", MODE_PRIVATE);
+                            pushLoginCredentials(sharedPreferences, result.get(TOKEN).getAsString());
+                            System.out.println("token;:: " + result.get(TOKEN).getAsString());
+                            startMainActivity();
+                        }
+                    } catch (Exception x) {
+
+                        Toast.makeText(getApplicationContext(), CONNECTION_ERROR, Toast.LENGTH_LONG).show();
                     }
-                }catch(Exception NullPointerException){
-
-                    Toast.makeText(getApplicationContext(), CONNECTION_ERROR, Toast.LENGTH_LONG).show();
                 }
+
+//                if ( result != null ) {
+//
+//                    try {
+//
+//                        if (result.has("token")) {
+//
+//
+//                        }
+//                    } catch (Exception exception) {
+//
+//
+//                    }
+//                }else{
+//
+//
+//                }
             }
         });
     }
