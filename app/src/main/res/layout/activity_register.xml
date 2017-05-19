@@ -5,37 +5,41 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.umiss.RegisterActivity"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:padding="32dp">
 
     <EditText
         android:id="@+id/register_et_user"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="User" />
+        android:hint="Usuário" />
 
     <EditText
         android:id="@+id/register_et_password"
+        android:inputType="textPassword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="password" />
+        android:hint="senha" />
 
     <EditText
         android:id="@+id/register_et_confirm_password"
+        android:inputType="textPassword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="confirm password" />
+        android:hint="confirmar senha" />
 
     <EditText
         android:id="@+id/register_et_chair_token"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="chair token" />
+        android:hint="identificador cadeira" />
 
     <Button
         android:id="@+id/register_btn_register"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Register"/>
+        android:text="Registrar"
+        android:layout_gravity="center" />
 
 
 </LinearLayout>

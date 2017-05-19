@@ -42,18 +42,18 @@ public class MainActivity extends AppCompatActivity {
 
                 System.out.println("token "+token);
 
-                UMISSRest.sendAndroidToken("http://10.0.2.2:8000/api/monitors/17",
-                        getApplicationContext(),
-                        token, FirebaseInstanceId.getInstance().getToken().toString(),
-                        "cadeiratoken",new FutureCallback<JsonObject>() {
-                    @Override
-                    public void onCompleted(Exception e, JsonObject result) {
-                        if ( result != null )
-                            System.out.println("result = "+result.toString());
-                        else
-                            System.out.println("e = " + e.toString());
-                    }
-                });
+//                UMISSRest.sendAndroidToken("http://10.0.2.2:8000/api/monitors/17",
+//                        getApplicationContext(),
+//                        token, FirebaseInstanceId.getInstance().getToken().toString(),
+//                        "cadeiratoken",new FutureCallback<JsonObject>() {
+//                    @Override
+//                    public void onCompleted(Exception e, JsonObject result) {
+//                        if ( result != null )
+//                            System.out.println("result = "+result.toString());
+//                        else
+//                            System.out.println("e = " + e.toString());
+//                    }
+//                });
             }
         });
     }
@@ -73,8 +73,6 @@ public class MainActivity extends AppCompatActivity {
     private void isLogged(){
 
         SharedPreferences sharedPreferences = getSharedPreferences("data",MODE_PRIVATE);
-
-//        Log.d("token", FirebaseInstanceId.getInstance().getToken().toString());
 
         if ( !sharedPreferences.getBoolean(LoginActivity.IS_LOGGED, false) ){
 

@@ -50,8 +50,16 @@ public class RegisterActivity extends AppCompatActivity {
             public void onCompleted(Exception e, JsonObject result) {
 
                 if ( result != null ) {
-                    Toast.makeText(getApplicationContext(), "Registrou!", Toast.LENGTH_LONG).show();
-                    startLoginActivity();
+
+                    if ( result.has("errors") ){
+
+                        Toast.makeText(getApplicationContext(), "Usuário já existe", Toast.LENGTH_LONG).show();
+                        clearFields();
+                    }else{
+
+                        Toast.makeText(getApplicationContext(), "Usuário cadastrado com sucesso!", Toast.LENGTH_LONG).show();
+                        startLoginActivity();
+                    }
                 }else {
                     Toast.makeText(getApplicationContext(), e.toString(), Toast.LENGTH_LONG).show();
                     Log.d("Register2", e.toString());
@@ -66,6 +74,45 @@ public class RegisterActivity extends AppCompatActivity {
         finish();
     }
 
+    private boolean validatesInput(String user, String password, String passwordConfirmation, String chair){
+
+        boolean isValidated = true;
+
+        if ( !password.equals(passwordConfirmation) ){
+
+            this.password.setError("As senhas devem coincidir");
+            this.passwordConfirmation.setText("");
+            isValidated = false;
+        }else if ( password.equals("") ){
+
+            this.password.setError("Campo não pode ser nulo");
+            isValidated = false;
+        }
+
+        if ( user.equals("") ){
+
+            this.user.setError("Campo não pode ser nulo");
+            isValidated = false;
+        }
+
+        if ( chair.equals("") ){
+
+            this.chairToken.setError("Campo não pode ser nulo");
+            isValidated = false;
+        }
+
+        return isValidated;
+    }
+
+    private void clearFields(){
+
+        user.setText("");
+        user.requestFocus();
+        password.setText("");
+        passwordConfirmation.setText("");
+        chairToken.setText("");
+    }
+
     /* on clicks */
 
     private View.OnClickListener registerOnClickListener = new View.OnClickListener() {
@@ -73,8 +120,12 @@ public class RegisterActivity extends AppCompatActivity {
         public void onClick(View v) {
             String userName = user.getText().toString();
             String passwordString = password.getText().toString();
+            String passwordConfirmationString = passwordConfirmation.getText().toString();
             String chairTokenString = chairToken.getText().toString();
-            sendInformation(userName, passwordString, chairTokenString);
+
+            if ( validatesInput(userName, passwordString, passwordConfirmationString, chairTokenString) )
+                sendInformation(userName, passwordString, chairTokenString);
+
             Log.d("Register", "Clicked!");
         }
     };
