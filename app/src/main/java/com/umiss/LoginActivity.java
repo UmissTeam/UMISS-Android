@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -30,6 +31,8 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        Button register = (Button) findViewById(R.id.button_register);
+        register.setOnClickListener(registerOnClickListener);
     }
 
     @Override
@@ -61,9 +64,10 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onCompleted(Exception e, JsonObject result) {
 
-                System.out.println(result.toString());
-
                 try {
+
+                    System.out.println("Result " + result.toString());
+
                     if (result.has("token")) {
 
                         SharedPreferences sharedPreferences = getSharedPreferences("data", MODE_PRIVATE);
@@ -114,4 +118,15 @@ public class LoginActivity extends AppCompatActivity {
         startActivity(intent);
         finish();
     }
+
+    /* on clicks */
+
+    private View.OnClickListener registerOnClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            Intent intent = new Intent(getApplicationContext(), RegisterActivity.class);
+            startActivity(intent);
+            finish();
+        }
+    };
 }

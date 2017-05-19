@@ -7,9 +7,11 @@ import com.google.gson.JsonObject;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 
+import models.Monitor;
+
 public class UMISSRest {
 
-    private static final String BASE_URL = "http://10.0.2.2:8000/";
+    private static final String BASE_URL = "http://104.196.160.171:80/";
 
     public static void get(String url,String token, FutureCallback<JsonObject> futureCallback, Context context) {
 
@@ -29,14 +31,25 @@ public class UMISSRest {
     }
 
     //TODO: remove hardcoded
-    public static void sendAndroidToken(String url, Context context,String token, String androidToken,
-            String chairToken, FutureCallback<JsonObject> futureCallback){
+    public static void sendAndroidToken(String url, Context context, Monitor monitor, String token,
+                                        FutureCallback<JsonObject> futureCallback){
 
         Ion.with(context).load("PUT",url).setHeader("Authorization","Token "+token).
-                setBodyParameter("username", "duvido")
-                .setBodyParameter("password", "asdqwe123")
-                .setBodyParameter("token", chairToken)
-                .setBodyParameter("android_token", androidToken).asJsonObject().setCallback(futureCallback);
+                setBodyParameter("username", monitor.getUserName()).
+                setBodyParameter("password", monitor.getPassword()).
+                setBodyParameter("token", monitor.getChairToken()).
+                setBodyParameter("android_token", monitor.getAndroidToken()).
+                asJsonObject().setCallback(futureCallback);
+    }
+
+    public static void register(String url, Context context, Monitor monitor, FutureCallback<JsonObject> futureCallback){
+
+        Ion.with(context).load(url).
+                setBodyParameter("username", monitor.getUserName()).
+                setBodyParameter("password", monitor.getPassword()).
+                setBodyParameter("token", monitor.getChairToken()).
+                setBodyParameter("android_token", monitor.getAndroidToken()).
+                asJsonObject().setCallback(futureCallback);
     }
 
     public static String getAbsoluteURL(String relativeURL){

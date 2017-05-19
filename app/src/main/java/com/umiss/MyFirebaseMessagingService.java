@@ -32,6 +32,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
         Map<String, String> message = remoteMessage.getData();
 
+        Log.d("Notificationreceived", remoteMessage.toString());
+
         if ( message != null && isLogged() ){
 
             String notificationType = message.get("Type");

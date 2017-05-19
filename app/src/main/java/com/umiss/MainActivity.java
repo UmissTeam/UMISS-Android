@@ -27,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
 
         Button button = (Button) findViewById(R.id.button);
 
+
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -72,6 +73,8 @@ public class MainActivity extends AppCompatActivity {
     private void isLogged(){
 
         SharedPreferences sharedPreferences = getSharedPreferences("data",MODE_PRIVATE);
+
+//        Log.d("token", FirebaseInstanceId.getInstance().getToken().toString());
 
         if ( !sharedPreferences.getBoolean(LoginActivity.IS_LOGGED, false) ){
 
