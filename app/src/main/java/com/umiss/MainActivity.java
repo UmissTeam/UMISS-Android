@@ -96,7 +96,18 @@ public class MainActivity extends AppCompatActivity {
 
         SharedPreferences sharedPreferences = getSharedPreferences("data",MODE_PRIVATE);
 
-        if ( !sharedPreferences.getBoolean(LoginActivity.IS_LOGGED, false) ){
+        String isLogged = "";
+
+        try {
+            isLogged = sharedPreferences.getString(LoginActivity.IS_LOGGED, "notlogged");
+        }catch(ClassCastException c){
+
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.clear();
+            editor.commit();
+        }
+
+        if ( !isLogged.equals("logged") ){
 
             Intent intent = new Intent(this, LoginActivity.class);
             startActivity(intent);

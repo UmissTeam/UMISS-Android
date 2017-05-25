@@ -11,7 +11,7 @@ import models.Monitor;
 
 public class UMISSRest {
 
-    private static final String BASE_URL = "http://104.196.160.171:80/";
+    private static final String BASE_URL = Server.URL;
 
     public static void get(String url,String token, FutureCallback<JsonObject> futureCallback, Context context) {
 

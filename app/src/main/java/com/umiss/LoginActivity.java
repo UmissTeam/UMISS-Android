@@ -65,9 +65,12 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onCompleted(Exception e, JsonObject result) {
 
+                Log.d("Login", "tried");
+
                 if ( e instanceof ClassCastException ){
 
                     loginHasFailed(userEditText, passwordEditText);
+                    Log.d("Login", "failed");
                 }else {
 
                     try {
@@ -78,10 +81,15 @@ public class LoginActivity extends AppCompatActivity {
                             pushLoginCredentials(sharedPreferences, result.get(TOKEN).getAsString());
                             System.out.println("token;:: " + result.get(TOKEN).getAsString());
                             startMainActivity();
+                            Log.d("Login", "success");
+                        }else{
+
+                            Log.d("Login", result.toString());
                         }
                     } catch (Exception x) {
 
                         Toast.makeText(getApplicationContext(), CONNECTION_ERROR, Toast.LENGTH_LONG).show();
+                        Log.d("Login", "Connection error");
                     }
                 }
             }
@@ -100,7 +108,8 @@ public class LoginActivity extends AppCompatActivity {
     private void pushLoginCredentials(SharedPreferences sharedPreferences, String token) {
 
         SharedPreferences.Editor prefEditor = sharedPreferences.edit();
-        prefEditor.putBoolean(IS_LOGGED, true);
+        prefEditor.putString(IS_LOGGED, "logged");
+        prefEditor.commit();
         //TODO: in case this token is necessary
         prefEditor.putString(TOKEN, token);
         prefEditor.commit();

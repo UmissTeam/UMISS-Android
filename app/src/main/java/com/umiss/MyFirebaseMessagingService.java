@@ -78,7 +78,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
         SharedPreferences sharedPreferences = getSharedPreferences("data",MODE_PRIVATE);
         SharedPreferences.Editor prefEditor = sharedPreferences.edit();
-        prefEditor.putBoolean(LoginActivity.IS_LOGGED, false);
+        prefEditor.putString(LoginActivity.IS_LOGGED, "notLogged");
         prefEditor.putString(LoginActivity.TOKEN, null);
         prefEditor.commit();
 
