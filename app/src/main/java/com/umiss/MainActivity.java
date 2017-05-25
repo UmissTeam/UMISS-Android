@@ -6,21 +6,15 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
 
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.gson.JsonObject;
-import com.koushikdutta.async.future.FutureCallback;
-
-import network.UMISSRest;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -136,13 +130,11 @@ public class MainActivity extends AppCompatActivity {
             switch (position){
 
                 case 0:
-                    return new F1();
+                    return new HeartBeatsFragment();
                 case 1:
-                    return new F1();
+                    return new GalvanicFragment();
                 case 2:
-                    return new F1();
-                case 3:
-                    return new F1();
+                    return new TemperatureFragment();
                 default:
                     return null;
             }
