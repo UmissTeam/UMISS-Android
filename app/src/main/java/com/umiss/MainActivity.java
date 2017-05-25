@@ -107,6 +107,14 @@ public class MainActivity extends AppCompatActivity {
             editor.commit();
         }
 
+        try{
+            Log.d("tokenAndroid", FirebaseInstanceId.getInstance().getToken().toString());
+        }catch (NullPointerException e){
+            Log.d("tokenAndroid", "Firebase instance null");
+            isLogged = "";
+        }
+
+
         if ( !isLogged.equals("logged") ){
 
             Intent intent = new Intent(this, LoginActivity.class);

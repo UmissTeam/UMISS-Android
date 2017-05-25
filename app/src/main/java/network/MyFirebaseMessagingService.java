@@ -1,4 +1,4 @@
-package com.umiss;
+package network;
 
 import android.app.ActivityManager;
 import android.app.NotificationManager;
@@ -15,6 +15,10 @@ import android.util.Log;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
+import com.umiss.LoginActivity;
+import com.umiss.MainActivity;
+import com.umiss.MyApplication;
+import com.umiss.R;
 
 import java.util.List;
 import java.util.Map;
@@ -71,7 +75,9 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     private boolean isLogged(){
 
-        return getSharedPreferences("data",MODE_PRIVATE).getBoolean(LoginActivity.IS_LOGGED, false);
+        String s = getSharedPreferences("data",MODE_PRIVATE).getString(LoginActivity.IS_LOGGED, "notLogged");
+
+        return s.equals("logged");
     }
 
     private void logOut(){
