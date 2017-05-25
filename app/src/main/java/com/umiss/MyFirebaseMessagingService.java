@@ -38,9 +38,11 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
             String notificationType = message.get("Type");
 
-            if ( notificationType.equals(LOGOUT) ){
-
-                logOut();
+            if ( notificationType != null ){
+                if ( notificationType.equals(LOGOUT) )
+                    logOut();
+                else
+                    sendNotification(message.get("Title"), message.get("Body"));
             }else {
 
                 sendNotification(message.get("Title"), message.get("Body"));
