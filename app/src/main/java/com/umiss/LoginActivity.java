@@ -24,7 +24,7 @@ public class LoginActivity extends AppCompatActivity {
     public static final String IS_LOGGED = "isLogged";
     public static final String TOKEN = "token";
     public static final String PASSWORD = "password";
-    private String LOGIN_REQUEST = "api-auth-token/" ;
+    private String LOGIN_REQUEST = "api-auth-token/";
     private String CONNECTION_ERROR = "Server is offline!";
 
     private EditText userEditText;
@@ -123,7 +123,6 @@ public class LoginActivity extends AppCompatActivity {
                 jsonObject.addProperty("android_token", androidToken);
 
                 String id = result.get("data").getAsJsonObject().get("id").getAsString();
-
                 jsonObject.addProperty("id", id);
 
                 if ( result == null )
@@ -164,7 +163,7 @@ public class LoginActivity extends AppCompatActivity {
         password.setText("");
         user.requestFocus();
     }
-
+    
     private void startMainActivity(){
 
         Intent intent = new Intent(this, MainActivity.class);
