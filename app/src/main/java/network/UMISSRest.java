@@ -6,12 +6,14 @@ import android.provider.Settings;
 import com.google.gson.JsonObject;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
+import com.koushikdutta.ion.Response;
 
 import models.Monitor;
 
 public class UMISSRest {
 
-    private static final String BASE_URL = Server.URL;
+    public static final String BASE_URL = Server.URL;
+    public static final String MONITORS = BASE_URL + "api/monitors";
 
     public static void get(String url,String token, FutureCallback<JsonObject> futureCallback, Context context) {
 
@@ -31,15 +33,15 @@ public class UMISSRest {
     }
 
     //TODO: remove hardcoded
-    public static void sendAndroidToken(String url, Context context, Monitor monitor, String token,
-                                        FutureCallback<JsonObject> futureCallback){
+    public static void sendAndroidToken(String url, Context context, JsonObject jsonObject, String token,
+                                        FutureCallback<Response<JsonObject>> futureCallback){
 
         Ion.with(context).load("PUT",url).setHeader("Authorization","Token "+token).
-                setBodyParameter("username", monitor.getUserName()).
-                setBodyParameter("password", monitor.getPassword()).
-                setBodyParameter("token", monitor.getChairToken()).
-                setBodyParameter("android_token", monitor.getAndroidToken()).
-                asJsonObject().setCallback(futureCallback);
+                setBodyParameter("username", jsonObject.get("username").getAsString()).
+                setBodyParameter("password", jsonObject.get("password").getAsString()).
+                setBodyParameter("android_token",jsonObject.get("android_token").getAsString()).
+                setBodyParameter("token", jsonObject.get("token").getAsString()).
+                asJsonObject().withResponse().setCallback(futureCallback);
     }
 
     public static void register(String url, Context context, Monitor monitor, FutureCallback<JsonObject> futureCallback){

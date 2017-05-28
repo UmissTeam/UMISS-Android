@@ -23,10 +23,6 @@ import com.umiss.R;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Created by gustavo on 4/13/17.
- */
-
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     private static final String LOGOUT = "LOGOUT";

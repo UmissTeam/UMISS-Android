@@ -28,18 +28,17 @@ public class HeartBeatsFragment extends Fragment {
     private void plot(View view){
         GraphView graph = (GraphView) view.findViewById(R.id.graph);
         LineGraphSeries<DataPoint> series = new LineGraphSeries<DataPoint>(new DataPoint[] {
-                new DataPoint(1, 123),
-                new DataPoint(2, 100),
-                new DataPoint(3, 110),
-                new DataPoint(4, 124),
-                new DataPoint(5, 125),
-                new DataPoint(6, 123),
-                new DataPoint(7, 100),
-                new DataPoint(8, 110),
-                new DataPoint(9, 124),
-                new DataPoint(10, 125)
+                new DataPoint(0, 123),
+                new DataPoint(1, 100),
+                new DataPoint(2, 110),
+                new DataPoint(3, 124),
+                new DataPoint(4, 125),
+                new DataPoint(5, 123),
+                new DataPoint(6, 100),
+                new DataPoint(7, 110),
+                new DataPoint(8, 124),
+                new DataPoint(9, 125)
         });
-        graph.getViewport().setScalable(true);
         series.setDrawDataPoints(true);
         graph.addSeries(series);
     }

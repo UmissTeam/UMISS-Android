@@ -9,6 +9,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -20,6 +21,7 @@ public class MainActivity extends AppCompatActivity {
 
     private TabLayout tabLayout;
     private ViewPager viewPager;
+    private Button button;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,13 +79,26 @@ public class MainActivity extends AppCompatActivity {
     private void findViewItems(){
         tabLayout = (TabLayout) findViewById(R.id.main_tab);
         viewPager = (ViewPager) findViewById(R.id.main_viewpager);
-
+        button = (Button) findViewById(R.id.toolbar_button);
         viewPager.setAdapter(new CustomAdapter(getSupportFragmentManager()));
-
-
-        viewPager.beginFakeDrag();
-
         tabLayout.setupWithViewPager(viewPager);
+
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                logout();
+            }
+        });
+    }
+
+    private void logout(){
+        SharedPreferences sharedPreferences = getSharedPreferences("data",MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(LoginActivity.IS_LOGGED, "notlogged");
+        editor.commit();
+        Intent intent = new Intent(this, LoginActivity.class);
+        startActivity(intent);
+        finish();
     }
 
     private void isLogged(){

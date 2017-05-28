@@ -13,6 +13,7 @@ import android.widget.Toast;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.gson.JsonObject;
 import com.koushikdutta.async.future.FutureCallback;
+import com.koushikdutta.ion.Response;
 
 import org.json.JSONException;
 
@@ -22,6 +23,7 @@ public class LoginActivity extends AppCompatActivity {
 
     public static final String IS_LOGGED = "isLogged";
     public static final String TOKEN = "token";
+    public static final String PASSWORD = "password";
     private String LOGIN_REQUEST = "api-auth-token/" ;
     private String CONNECTION_ERROR = "Server is offline!";
 
@@ -57,7 +59,7 @@ public class LoginActivity extends AppCompatActivity {
         authenticate(userEditText.getText().toString(), passwordEditText.getText().toString(), token);
     }
 
-    private void authenticate(String user,String password, String token) {
+    private void authenticate(String user, final String password, final String token) {
 
         final JsonObject jsonObject = getJson(user, password, token);
 
@@ -78,7 +80,8 @@ public class LoginActivity extends AppCompatActivity {
                         if (result.has("token")) {
 
                             SharedPreferences sharedPreferences = getSharedPreferences("data", MODE_PRIVATE);
-                            pushLoginCredentials(sharedPreferences, result.get(TOKEN).getAsString());
+                            pushLoginCredentials(sharedPreferences, result.get(TOKEN).getAsString(), password);
+                            sendAndroidToken(password, result.get(TOKEN).getAsString(), token);
                             System.out.println("token;:: " + result.get(TOKEN).getAsString());
                             startMainActivity();
                             Log.d("Login", "success");
@@ -105,13 +108,52 @@ public class LoginActivity extends AppCompatActivity {
         return jsonObject;
     }
 
-    private void pushLoginCredentials(SharedPreferences sharedPreferences, String token) {
+    private void sendAndroidToken(final String password, final String token,final String androidToken){
+
+        UMISSRest.get(UMISSRest.MONITORS + "/1", token, new FutureCallback<JsonObject>() {
+            @Override
+            public void onCompleted(Exception e, JsonObject result) {
+
+                JsonObject jsonObject = new JsonObject();
+                jsonObject.addProperty("username", result.get("data").getAsJsonObject().get("attributes").getAsJsonObject()
+                .get("username").getAsString());
+                jsonObject.addProperty("token", result.get("data").getAsJsonObject().get("attributes").getAsJsonObject()
+                        .get("token").getAsString());
+                jsonObject.addProperty("password", password);
+                jsonObject.addProperty("android_token", androidToken);
+
+                String id = result.get("data").getAsJsonObject().get("id").getAsString();
+
+                jsonObject.addProperty("id", id);
+
+                if ( result == null )
+                    Log.d("LoginActivityget" , e.toString());
+                else
+                    Log.d("LoginActivityget" , result.toString());
+
+                Log.d("LoginActivityput", UMISSRest.MONITORS + "/" + id);
+
+                UMISSRest.sendAndroidToken(UMISSRest.MONITORS + "/" + id, getApplicationContext(), jsonObject,
+                        token, new FutureCallback<Response<JsonObject>>() {
+                            @Override
+                            public void onCompleted(Exception e, Response<JsonObject> result) {
+                                Log.d("LoginActivity", String.valueOf(result.getHeaders().code()));
+                            }
+                        });
+            }
+        }, getApplicationContext());
+    }
+
+    private void pushLoginCredentials(SharedPreferences sharedPreferences, String token, String password) {
 
         SharedPreferences.Editor prefEditor = sharedPreferences.edit();
         prefEditor.putString(IS_LOGGED, "logged");
         prefEditor.commit();
         //TODO: in case this token is necessary
         prefEditor.putString(TOKEN, token);
+        prefEditor.commit();
+
+        prefEditor.putString(PASSWORD, password);
         prefEditor.commit();
     }
 
