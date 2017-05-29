@@ -1,5 +1,6 @@
 package com.umiss;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
@@ -63,6 +64,10 @@ public class LoginActivity extends AppCompatActivity {
 
         final JsonObject jsonObject = getJson(user, password, token);
 
+        final ProgressDialog progressDialog = new ProgressDialog(LoginActivity.this);
+        progressDialog.setMessage("Buscando informações...");
+        progressDialog.show();
+
         UMISSRest.login(UMISSRest.getAbsoluteURL(LOGIN_REQUEST), jsonObject, getApplicationContext(), new FutureCallback<JsonObject> (){
             @Override
             public void onCompleted(Exception e, JsonObject result) {
@@ -73,6 +78,7 @@ public class LoginActivity extends AppCompatActivity {
 
                     loginHasFailed(userEditText, passwordEditText);
                     Log.d("Login", "failed");
+                    progressDialog.dismiss();
                 }else {
 
                     try {
@@ -85,13 +91,17 @@ public class LoginActivity extends AppCompatActivity {
                             System.out.println("token;:: " + result.get(TOKEN).getAsString());
                             startMainActivity();
                             Log.d("Login", "success");
+                            progressDialog.dismiss();
                         }else{
 
                             Log.d("Login", result.toString());
+                            loginHasFailed(userEditText, passwordEditText);
+                            progressDialog.dismiss();
                         }
                     } catch (Exception x) {
 
                         Toast.makeText(getApplicationContext(), CONNECTION_ERROR, Toast.LENGTH_LONG).show();
+                        progressDialog.dismiss();
                         Log.d("Login", "Connection error");
                     }
                 }

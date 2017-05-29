@@ -1,5 +1,6 @@
 package com.umiss;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -45,6 +46,11 @@ public class RegisterActivity extends AppCompatActivity {
 
         String token = FirebaseInstanceId.getInstance().getToken().toString();
         Monitor monitor = new Monitor(user, password, chairToken, token);
+
+        final ProgressDialog progressDialog = new ProgressDialog(RegisterActivity.this);
+        progressDialog.setMessage("Enviando informações");
+        progressDialog.show();
+
         UMISSRest.register(UMISSRest.getAbsoluteURL("api/monitors"), getApplicationContext(), monitor, new FutureCallback<JsonObject>() {
             @Override
             public void onCompleted(Exception e, JsonObject result) {
@@ -55,14 +61,17 @@ public class RegisterActivity extends AppCompatActivity {
 
                         Toast.makeText(getApplicationContext(), "Usuário já existe", Toast.LENGTH_LONG).show();
                         clearFields();
+                        progressDialog.dismiss();
                     }else{
 
                         Toast.makeText(getApplicationContext(), "Usuário cadastrado com sucesso!", Toast.LENGTH_LONG).show();
+                        progressDialog.dismiss();
                         startLoginActivity();
                     }
                 }else {
-                    Toast.makeText(getApplicationContext(), e.toString(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "Erro de conexão.", Toast.LENGTH_LONG).show();
                     Log.d("Register2", e.toString());
+                    progressDialog.dismiss();
                 }
             }
         });
