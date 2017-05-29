@@ -110,35 +110,41 @@ public class LoginActivity extends AppCompatActivity {
 
     private void sendAndroidToken(final String password, final String token,final String androidToken){
 
+
         UMISSRest.get(UMISSRest.MONITORS + "/1", token, new FutureCallback<JsonObject>() {
             @Override
             public void onCompleted(Exception e, JsonObject result) {
 
                 JsonObject jsonObject = new JsonObject();
-                jsonObject.addProperty("username", result.get("data").getAsJsonObject().get("attributes").getAsJsonObject()
-                .get("username").getAsString());
-                jsonObject.addProperty("token", result.get("data").getAsJsonObject().get("attributes").getAsJsonObject()
-                        .get("token").getAsString());
-                jsonObject.addProperty("password", password);
-                jsonObject.addProperty("android_token", androidToken);
 
-                String id = result.get("data").getAsJsonObject().get("id").getAsString();
-                jsonObject.addProperty("id", id);
+                try {
+                    jsonObject.addProperty("username", result.get("data").getAsJsonObject().get("attributes").getAsJsonObject()
+                            .get("username").getAsString());
+                    jsonObject.addProperty("token", result.get("data").getAsJsonObject().get("attributes").getAsJsonObject()
+                            .get("token").getAsString());
+                    jsonObject.addProperty("password", password);
+                    jsonObject.addProperty("android_token", androidToken);
 
-                if ( result == null )
-                    Log.d("LoginActivityget" , e.toString());
-                else
-                    Log.d("LoginActivityget" , result.toString());
+                    String id = result.get("data").getAsJsonObject().get("id").getAsString();
+                    jsonObject.addProperty("id", id);
 
-                Log.d("LoginActivityput", UMISSRest.MONITORS + "/" + id);
+                    if (result == null)
+                        Log.d("LoginActivityget", e.toString());
+                    else
+                        Log.d("LoginActivityget", result.toString());
 
-                UMISSRest.sendAndroidToken(UMISSRest.MONITORS + "/" + id, getApplicationContext(), jsonObject,
-                        token, new FutureCallback<Response<JsonObject>>() {
-                            @Override
-                            public void onCompleted(Exception e, Response<JsonObject> result) {
-                                Log.d("LoginActivity", String.valueOf(result.getHeaders().code()));
-                            }
-                        });
+                    Log.d("LoginActivityput", UMISSRest.MONITORS + "/" + id);
+
+                    UMISSRest.sendAndroidToken(UMISSRest.MONITORS + "/" + id, getApplicationContext(), jsonObject,
+                            token, new FutureCallback<Response<JsonObject>>() {
+                                @Override
+                                public void onCompleted(Exception e, Response<JsonObject> result) {
+                                    Log.d("LoginActivity", String.valueOf(result.getHeaders().code()));
+                                }
+                            });
+                }catch (Exception exception){
+
+                }
             }
         }, getApplicationContext());
     }
@@ -163,7 +169,7 @@ public class LoginActivity extends AppCompatActivity {
         password.setText("");
         user.requestFocus();
     }
-    
+
     private void startMainActivity(){
 
         Intent intent = new Intent(this, MainActivity.class);
