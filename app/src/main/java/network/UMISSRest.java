@@ -2,9 +2,11 @@ package network;
 
 import android.content.Context;
 import android.provider.Settings;
+import android.util.Log;
 
 import com.google.gson.JsonObject;
 import com.koushikdutta.async.future.FutureCallback;
+import com.koushikdutta.async.http.BasicNameValuePair;
 import com.koushikdutta.ion.Ion;
 import com.koushikdutta.ion.Response;
 
@@ -14,6 +16,9 @@ public class UMISSRest {
 
     public static final String BASE_URL = Server.URL;
     public static final String MONITORS = BASE_URL + "api/monitors";
+    public static final String HEART_BEATS = BASE_URL + "api/heart_beats";
+    public static final String TEMPERATURES = BASE_URL + "api/skin_temperatures";
+    public static final String GALVANIC = BASE_URL + "api/galvanic_resistances";
 
     public static void get(String url,String token, FutureCallback<JsonObject> futureCallback, Context context) {
 
@@ -36,11 +41,13 @@ public class UMISSRest {
     public static void sendAndroidToken(String url, Context context, JsonObject jsonObject, String token,
                                         FutureCallback<Response<JsonObject>> futureCallback){
 
+        Log.d("sendAndroidToken", jsonObject.toString());
+
         Ion.with(context).load("PUT",url).setHeader("Authorization","Token "+token).
                 setBodyParameter("username", jsonObject.get("username").getAsString()).
                 setBodyParameter("password", jsonObject.get("password").getAsString()).
-                setBodyParameter("android_token",jsonObject.get("android_token").getAsString()).
                 setBodyParameter("token", jsonObject.get("token").getAsString()).
+                setBodyParameter("android_token",jsonObject.get("android_token").getAsString()).
                 asJsonObject().withResponse().setCallback(futureCallback);
     }
 

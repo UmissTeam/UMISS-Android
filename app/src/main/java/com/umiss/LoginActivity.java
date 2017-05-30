@@ -139,9 +139,9 @@ public class LoginActivity extends AppCompatActivity {
                     jsonObject.addProperty("id", id);
 
                     if (result == null)
-                        Log.d("LoginActivityget", e.toString());
+                        Log.d("LoginActivityget3", e.toString());
                     else
-                        Log.d("LoginActivityget", result.toString());
+                        Log.d("LoginActivityget3", result.toString());
 
                     Log.d("LoginActivityput", UMISSRest.MONITORS + "/" + id);
 
@@ -149,7 +149,7 @@ public class LoginActivity extends AppCompatActivity {
                             token, new FutureCallback<Response<JsonObject>>() {
                                 @Override
                                 public void onCompleted(Exception e, Response<JsonObject> result) {
-                                    Log.d("LoginActivity", String.valueOf(result.getHeaders().code()));
+                                    Log.d("LoginActivity4", String.valueOf(result.getHeaders().code()));
                                 }
                             });
                 }catch (Exception exception){

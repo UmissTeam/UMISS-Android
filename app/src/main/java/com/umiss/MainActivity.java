@@ -23,45 +23,23 @@ public class MainActivity extends AppCompatActivity {
     private ViewPager viewPager;
     private Button button;
 
+    private HeartBeatsFragment heartBeatsFragment;
+    private TemperatureFragment temperatureFragment;
+    private GalvanicFragment galvanicFragment;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         isLogged();
-
         findViewItems();
+        instantiateFragments();
+    }
 
-        Button button = (Button) findViewById(R.id.button);
-
-
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                System.out.println(FirebaseInstanceId.getInstance().getToken().toString());
-                Log.d("token", FirebaseInstanceId.getInstance().getToken().toString());
-
-                JsonObject jsonObject = new JsonObject();
-                jsonObject.addProperty("beats", 123);
-
-                SharedPreferences sharedPreferences = getSharedPreferences("data",MODE_PRIVATE);
-                String token = sharedPreferences.getString(LoginActivity.TOKEN, "");
-
-                System.out.println("token "+token);
-
-//                UMISSRest.sendAndroidToken("http://10.0.2.2:8000/api/monitors/17",
-//                        getApplicationContext(),
-//                        token, FirebaseInstanceId.getInstance().getToken().toString(),
-//                        "cadeiratoken",new FutureCallback<JsonObject>() {
-//                    @Override
-//                    public void onCompleted(Exception e, JsonObject result) {
-//                        if ( result != null )
-//                            System.out.println("result = "+result.toString());
-//                        else
-//                            System.out.println("e = " + e.toString());
-//                    }
-//                });
-            }
-        });
+    private void instantiateFragments() {
+        heartBeatsFragment = new HeartBeatsFragment();
+        temperatureFragment = new TemperatureFragment();
+        galvanicFragment = new GalvanicFragment();
     }
 
     @Override
@@ -145,11 +123,11 @@ public class MainActivity extends AppCompatActivity {
             switch (position){
 
                 case 0:
-                    return new HeartBeatsFragment();
+                    return heartBeatsFragment;
                 case 1:
-                    return new GalvanicFragment();
+                    return galvanicFragment;
                 case 2:
-                    return new TemperatureFragment();
+                    return temperatureFragment;
                 default:
                     return null;
             }
