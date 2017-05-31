@@ -150,10 +150,16 @@ public class LoginActivity extends AppCompatActivity {
                                 @Override
                                 public void onCompleted(Exception e, Response<JsonObject> result) {
                                     Log.d("LoginActivity4", String.valueOf(result.getHeaders().code()));
+
+                                    if ( result.getHeaders().code() != 200 ){
+
+                                        Toast.makeText(getApplicationContext(),
+                                                "Não foi possível enviar o token para o servidor, faça login novamente.", Toast.LENGTH_LONG).show();
+                                    }
                                 }
                             });
                 }catch (Exception exception){
-
+                    Toast.makeText(getApplicationContext(), "Problemas de conexão...", Toast.LENGTH_LONG).show();
                 }
             }
         }, getApplicationContext());

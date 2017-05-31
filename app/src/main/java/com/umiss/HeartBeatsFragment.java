@@ -65,12 +65,17 @@ public class HeartBeatsFragment extends Fragment {
                 }catch (NullPointerException n){
 
                     Log.d("NullpointerException", n.toString());
+
+                    Toast.makeText(getActivity().getApplicationContext(),
+                            "Não foi possível carregar os dados...", Toast.LENGTH_LONG).show();
                 }
 
-                DataPoint[] dataPoints = new DataPoint[list.size()];
-                for (int i = 0; i < list.size(); i++) {
+                List<String> formatedList = list.subList(list.size()-10 < 0 ? 0 : list.size()-10, list.size());
+
+                DataPoint[] dataPoints = new DataPoint[formatedList.size()];
+                for (int i = 0; i < formatedList.size(); i++) {
                     // add new DataPoint object to the array for each of your list entries
-                    dataPoints[i] = new DataPoint(i, Integer.parseInt(list.get(i))); // not sure but I think the second argument should be of type double
+                    dataPoints[i] = new DataPoint(i, Integer.parseInt(formatedList.get(i))); // not sure but I think the second argument should be of type double
                 }
 
                 LineGraphSeries<DataPoint> series = new LineGraphSeries<DataPoint>(dataPoints);

@@ -2,6 +2,7 @@ package network;
 
 import android.content.SharedPreferences;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.FirebaseInstanceIdService;
@@ -49,31 +50,43 @@ public class MyFirebaseInstanceIDService extends FirebaseInstanceIdService{
             @Override
             public void onCompleted(Exception e, JsonObject result) {
 
-                JsonObject jsonObject = new JsonObject();
-                jsonObject.addProperty("username", result.get("data").getAsJsonObject().get("attributes").getAsJsonObject()
-                        .get("username").getAsString());
-                jsonObject.addProperty("token", result.get("data").getAsJsonObject().get("attributes").getAsJsonObject()
-                        .get("token").getAsString());
-                jsonObject.addProperty("password", password);
-                jsonObject.addProperty("android_token", androidToken);
+                if ( result != null ) {
+                    JsonObject jsonObject = new JsonObject();
+                    jsonObject.addProperty("username", result.get("data").getAsJsonObject().get("attributes").getAsJsonObject()
+                            .get("username").getAsString());
+                    jsonObject.addProperty("token", result.get("data").getAsJsonObject().get("attributes").getAsJsonObject()
+                            .get("token").getAsString());
+                    jsonObject.addProperty("password", password);
+                    jsonObject.addProperty("android_token", androidToken);
 
-                String id = result.get("data").getAsJsonObject().get("id").getAsString();
-                jsonObject.addProperty("id", id);
+                    String id = result.get("data").getAsJsonObject().get("id").getAsString();
+                    jsonObject.addProperty("id", id);
 
-                if ( result == null )
-                    Log.d("LoginActivityget" , e.toString());
-                else
-                    Log.d("LoginActivityget" , result.toString());
+                    if (result == null)
+                        Log.d("LoginActivityget", e.toString());
+                    else
+                        Log.d("LoginActivityget", result.toString());
 
-                Log.d("LoginActivityput", UMISSRest.MONITORS + "/" + id);
+                    Log.d("LoginActivityput", UMISSRest.MONITORS + "/" + id);
 
-                UMISSRest.sendAndroidToken(UMISSRest.MONITORS + "/" + id, getApplicationContext(), jsonObject,
-                        token, new FutureCallback<Response<JsonObject>>() {
-                            @Override
-                            public void onCompleted(Exception e, Response<JsonObject> result) {
-                                Log.d("LoginActivity", String.valueOf(result.getHeaders().code()));
-                            }
-                        });
+                    UMISSRest.sendAndroidToken(UMISSRest.MONITORS + "/" + id, getApplicationContext(), jsonObject,
+                            token, new FutureCallback<Response<JsonObject>>() {
+                                @Override
+                                public void onCompleted(Exception e, Response<JsonObject> result) {
+                                    Log.d("LoginActivity", String.valueOf(result.getHeaders().code()));
+
+                                    if (result.getHeaders().code() != 200) {
+
+                                        Toast.makeText(getApplicationContext(),
+                                                "Não foi possível enviar o token para o servidor, faça login novamente.", Toast.LENGTH_LONG).show();
+                                    }
+                                }
+                            });
+                }else {
+
+                    Toast.makeText(getApplicationContext(),
+                            "Não foi possível enviar o token para o servidor, faça login novamente.", Toast.LENGTH_LONG).show();
+                }
             }
         }, getApplicationContext());
     }
