@@ -12,7 +12,7 @@
         android:id="@+id/register_et_user"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Usuário" />
+        android:hint="usuário" />
 
     <EditText
         android:id="@+id/register_et_password"
@@ -35,11 +35,17 @@
         android:hint="identificador cadeira" />
 
     <Button
-        android:id="@+id/register_btn_register"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Registrar"
-        android:layout_gravity="center" />
+        android:layout_marginTop="20dp"
+        android:layout_width="250dp"
+        android:layout_height="54dp"
+        android:text="registrar"
+        android:layout_gravity="center"
+        android:background="@drawable/gradiant_button"
+        android:textColor="#000000"
+        android:textSize="14dp"
+        android:onClick="login"
+        android:layout_marginBottom="8dp"
+        android:id="@+id/register_btn_register"/>
 
 
 </LinearLayout>

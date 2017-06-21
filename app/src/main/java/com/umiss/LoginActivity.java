@@ -3,6 +3,7 @@ package com.umiss;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -38,6 +39,10 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         TextView register = (TextView) findViewById(R.id.button_register);
         register.setOnClickListener(registerOnClickListener);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+//Do what you need for this SDK
+        };
     }
 
     @Override
