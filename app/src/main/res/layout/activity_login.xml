@@ -1,47 +1,127 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context="com.umiss.LoginActivity">
 
-    <EditText
-        android:id="@+id/editText_user"
+    <ImageView
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="77dp"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:hint="Usuário"/>
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@drawable/logo"/>
 
-    <EditText
-        android:id="@+id/editText_password"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/editText_user"
-        android:layout_below="@+id/editText_user"
-        android:layout_marginTop="30dp"
-        android:ems="10"
-        android:inputType="textPassword"
-        android:hint="Senha"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        android:layout_weight="1"
+        android:paddingLeft="32dp"
+        android:paddingRight="32dp">
 
-    <Button
-        android:id="@+id/button_login"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="login"
-        android:layout_centerInParent="true"
-        android:text="Logar" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:orientation="horizontal">
 
-    <Button
-        android:id="@+id/button_register"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/button_login"
-        android:layout_below="@+id/button_login"
-        android:layout_centerInParent="true"
-        android:text="Registrar" />
-</RelativeLayout>
+            <EditText
+
+                android:hint="usuário"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/editText_user"
+                android:textColorHint="#B8B8B8"
+                android:textColor="#515151"
+                android:textSize="14dp"/>
+            <ImageView
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:layout_marginRight="2dp"
+                android:src="@drawable/login_user"
+                android:layout_alignRight="@+id/editText_user"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:orientation="horizontal">
+
+            <EditText
+                android:inputType="textPassword"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/editText_password"
+                android:hint="senha"
+                android:textColorHint="#B8B8B8"
+                android:textColor="#515151"
+                android:textSize="14dp"
+                android:maxLines="1"/>
+            <ImageView
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:src="@drawable/login_password"
+                android:layout_alignRight="@id/editText_password"/>
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="14dp">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_centerInParent="true">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Não possui acesso?"
+                    android:textColor="#515151"
+                    android:textSize="12dp"
+                    android:id="@+id/login_tv_forgot_password"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=" Clique aqui!"
+                    android:textColor="#000000"
+                    android:textSize="12dp"
+                    android:id="@+id/button_register"/>
+            </LinearLayout>
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingTop="40dp">
+
+            <Button
+                android:layout_width="250dp"
+                android:layout_height="54dp"
+                android:text="ACESSAR"
+                android:layout_gravity="center"
+                android:background="@drawable/gradiant_button"
+                android:textColor="#000000"
+                android:textSize="14dp"
+                android:onClick="login"
+                android:layout_marginBottom="8dp"
+                android:id="@+id/button_login"/>
+
+            <Button
+                android:layout_width="250dp"
+                android:layout_height="54dp"
+                android:text="REGISTRAR"
+                android:layout_gravity="center"
+                android:background="@drawable/gradiant_button"
+                android:textColor="#000000"
+                android:visibility="invisible"
+                android:textSize="14dp"/>/>
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>
