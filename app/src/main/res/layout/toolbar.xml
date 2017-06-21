@@ -16,7 +16,7 @@
             android:id="@+id/toolbar_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="UMISS"
+            android:text="WheelShare"
             android:textColor="#ffffff"
             android:textSize="20dp"
             android:layout_centerInParent="true"
@@ -27,6 +27,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="LOGOUT"
+            android:background="@android:color/transparent"
             android:layout_alignParentRight="true"
             android:layout_centerInParent="true"/>
 

@@ -112,7 +112,7 @@ public class MainActivity extends AppCompatActivity {
 
     private class CustomAdapter extends FragmentPagerAdapter {
 
-        private String[] fragments = {"Batimentos", "Galvanica", "Temperatura"};
+        private String[] fragments = {"Batimentos", "Temperatura"};
 
         public CustomAdapter(FragmentManager supportFragmentManager) {
             super(supportFragmentManager);
@@ -125,8 +125,6 @@ public class MainActivity extends AppCompatActivity {
                 case 0:
                     return heartBeatsFragment;
                 case 1:
-                    return galvanicFragment;
-                case 2:
                     return temperatureFragment;
                 default:
                     return null;
