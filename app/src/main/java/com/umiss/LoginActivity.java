@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.iid.FirebaseInstanceId;
@@ -35,7 +36,7 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        Button register = (Button) findViewById(R.id.button_register);
+        TextView register = (TextView) findViewById(R.id.button_register);
         register.setOnClickListener(registerOnClickListener);
     }
 
@@ -157,7 +158,7 @@ public class LoginActivity extends AppCompatActivity {
                                                 "Não foi possível enviar o token para o servidor, faça login novamente.", Toast.LENGTH_LONG).show();
                                     }
                                 }
-                            });
+                            }, "false");
                 }catch (Exception exception){
                     Toast.makeText(getApplicationContext(), "Problemas de conexão...", Toast.LENGTH_LONG).show();
                 }

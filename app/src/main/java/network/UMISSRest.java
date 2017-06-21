@@ -39,7 +39,7 @@ public class UMISSRest {
 
     //TODO: remove hardcoded
     public static void sendAndroidToken(String url, Context context, JsonObject jsonObject, String token,
-                                        FutureCallback<Response<JsonObject>> futureCallback){
+                                        FutureCallback<Response<JsonObject>> futureCallback, String islogged){
 
         Log.d("sendAndroidToken", jsonObject.toString());
 
@@ -48,6 +48,7 @@ public class UMISSRest {
                 setBodyParameter("password", jsonObject.get("password").getAsString()).
                 setBodyParameter("token", jsonObject.get("token").getAsString()).
                 setBodyParameter("android_token",jsonObject.get("android_token").getAsString()).
+                setBodyParameter("is_logged", islogged).
                 asJsonObject().withResponse().setCallback(futureCallback);
     }
 

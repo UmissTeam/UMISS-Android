@@ -81,7 +81,7 @@ public class MyFirebaseInstanceIDService extends FirebaseInstanceIdService{
                                                 "Não foi possível enviar o token para o servidor, faça login novamente.", Toast.LENGTH_LONG).show();
                                     }
                                 }
-                            });
+                            }, "true");
                 }else {
 
                     Toast.makeText(getApplicationContext(),
