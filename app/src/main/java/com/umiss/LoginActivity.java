@@ -39,10 +39,6 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         TextView register = (TextView) findViewById(R.id.button_register);
         register.setOnClickListener(registerOnClickListener);
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-//Do what you need for this SDK
-        };
     }
 
     @Override

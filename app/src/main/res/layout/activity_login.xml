@@ -43,6 +43,7 @@
                 android:id="@+id/editText_user"
                 android:textColorHint="#B8B8B8"
                 android:textColor="#515151"
+                android:maxLines="1"
                 android:textSize="14dp"/>
             <ImageView
                 android:layout_width="28dp"
