@@ -19,6 +19,7 @@ import com.jjoe64.graphview.series.LineGraphSeries;
 import com.koushikdutta.async.future.FutureCallback;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import network.UMISSRest;
@@ -66,6 +67,8 @@ public class TemperatureFragment extends Fragment {
                     Toast.makeText(getActivity().getApplicationContext(),
                             "Não foi possível carregar os dados...", Toast.LENGTH_LONG).show();
                 }
+
+                Collections.reverse(list);
 
                 List<String> formatedList = list.subList(list.size()-10 < 0 ? 0 : list.size()-10, list.size());
 
